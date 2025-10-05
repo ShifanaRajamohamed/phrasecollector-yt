@@ -1,0 +1,14 @@
+target: 
+
+input: city/country
+
+output: visitor places
+
+
+
+
+
+
+im creating an independent agent , where the user give an input about the country or city , the agent should return the destination or places where the user/ visitrs can visits 
+use fastAPI, use the templates i have previously attached, but ignore the old concept and create entirely for travel-planner
+i have attached gemini api key here

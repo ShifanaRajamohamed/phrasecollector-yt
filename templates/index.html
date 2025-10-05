@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio/Video to Text Converter</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="main-content" id="mainContent">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>Audio/Video to Text Converter</h1>
+                    <p>Drag and drop your audio/video files or paste a video link to get a transcription.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="upload-area" id="uploadArea">
+                <p>Drag & Drop Audio/Video Files Here</p>
+                <p>- OR -</p>
+                <input type="file" id="fileInput" accept="audio/*,video/*" hidden>
+                <button id="browseFiles">Browse Files</button>
+            </div>
+
+            <div class="url-input-area">
+                <input type="text" id="videoUrlInput" placeholder="Paste YouTube or video URL here">
+                <button id="transcribeUrl">Transcribe URL</button>
+            </div>
+
+            <div class="transcription-result">
+                <h2>Transcription:</h2>
+                <div id="transcribedText" class="result-box">
+                    {% if transcribed_text %}
+                        <p>{{ transcribed_text }}</p>
+                    {% elif error_message %}
+                        <p class="error-message">{{ error_message }}</p>
+                    {% else %}
+                        <p>Your transcribed text will appear here.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const browseFiles = document.getElementById('browseFiles');
+        const videoUrlInput = document.getElementById('videoUrlInput');
+        const transcribeUrlBtn = document.getElementById('transcribeUrl');
+        const transcribedTextDiv = document.getElementById('transcribedText');
+
+        // Handle drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        // Handle browse files button
+        browseFiles.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // Handle URL transcription
+        transcribeUrlBtn.addEventListener('click', () => {
+            const url = videoUrlInput.value.trim();
+            if (url) {
+                transcribeContent(null, url);
+            } else {
+                alert('Please enter a valid video URL.');
+            }
+        });
+
+        async function handleFile(file) {
+            transcribedTextDiv.innerHTML = '<p class="loading">Uploading and transcribing...</p>';
+            await transcribeContent(file, null);
+        }
+
+        async function transcribeContent(file, url) {
+            const formData = new FormData();
+            if (file) {
+                formData.append('file', file);
+            } else if (url) {
+                formData.append('video_url', url);
+            }
+
+            try {
+                const response = await fetch('/transcribe', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Transcription failed.');
+                }
+
+                const resultHtml = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(resultHtml, 'text/html');
+                const newTranscribedText = doc.getElementById('transcribedText').innerHTML;
+                transcribedTextDiv.innerHTML = newTranscribedText;
+
+            } catch (error) {
+                transcribedTextDiv.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
+                console.error('Transcription error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

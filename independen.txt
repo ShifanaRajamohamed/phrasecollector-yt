@@ -1,0 +1,12 @@
+1. observe the environment
+make decision 
+perform the task
+
+it performs the action to achieve the goal
+
+
+1.  covert the currencies automatically
+2. API data  (amount, source & target o curriencies)
+3. logic
+4.advanced logic
+5.output 

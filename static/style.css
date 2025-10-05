@@ -1,0 +1,210 @@
+/* General Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+    overflow-y: auto; /* Allow scrolling for the entire body */
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    margin: 20px;
+    overflow: hidden;
+}
+
+/* Header Styles */
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    border-bottom: 1px solid #0056b3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header-title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.header-title h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.header-title p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* Container for main transcription elements */
+.container {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Upload Area (Drag & Drop) */
+.upload-area {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #e9f5ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area.drag-over {
+    background-color: #d0e9ff;
+    border-color: #0056b3;
+}
+
+.upload-area p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #007bff;
+}
+
+.upload-area button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.upload-area button:hover {
+    background-color: #0056b3;
+}
+
+/* URL Input Area */
+.url-input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.url-input-area input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.url-input-area button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.url-input-area button:hover {
+    background-color: #218838;
+}
+
+/* Transcription Result Area */
+.transcription-result {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.transcription-result h2 {
+    margin-top: 0;
+    color: #007bff;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.result-box {
+    min-height: 150px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap; /* Preserve whitespace and wrap text */
+    word-wrap: break-word; /* Break long words */
+}
+
+.result-box p {
+    margin: 0;
+}
+
+/* Loading and Error Messages */
+.loading {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+}
+
+.error-message {
+    color: #dc3545;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-title h1 {
+        font-size: 1.5em;
+    }
+
+    .header-title p {
+        font-size: 0.8em;
+    }
+
+    .container {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    .upload-area {
+        padding: 30px 15px;
+    }
+
+    .url-input-area {
+        flex-direction: column;
+    }
+
+    .url-input-area button {
+        width: 100%;
+    }
+}
